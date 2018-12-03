@@ -19,9 +19,10 @@ class CipherV1(object):
     """
     version = 1
 
-    def __init__(self, secrets_dir='secrets'):
+    def __init__(self, secrets_dir='secrets',
+                 keyname='com.cloudbees.plugins.credentials.SecretBytes.KEY'):
         self.secrets_dir = secrets_dir
-        self.key = get_key(secrets_dir=secrets_dir)
+        self.key = get_key(keyname, secrets_dir=secrets_dir)
 
     def decrypt64(self, value):
         """Decrypts a base64-encoded string.

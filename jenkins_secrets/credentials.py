@@ -28,9 +28,11 @@ def el_to_dict(elem):
 class Credentials(object):
     """Provides an interface to the credentials.xml
     """
-    def __init__(self, filename='credentials.xml', secrets_dir='secrets'):
+    def __init__(self, filename='credentials.xml', secrets_dir='secrets',
+                 keyname='com.cloudbees.plugins.credentials.SecretBytes.KEY'):
         self.filename = filename
         self.secrets_dir = secrets_dir
+        self.keyname = keyname
         self.xml = XML.parse(filename)
         self._ciph = None
 
@@ -44,7 +46,7 @@ class Credentials(object):
             CipherV1
         """
         if self._ciph is None:
-            self._ciph = CipherV1(self.secrets_dir)
+            self._ciph = CipherV1(self.secrets_dir, self.keyname)
         return self._ciph
 
     def decrypt_secret(self, value):
